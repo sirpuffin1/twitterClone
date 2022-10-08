@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/sirpuffin1/twitterClone/issues"
   },
-  "homepage": "https://github.com/sirpuffin1/twitterClone#readme"
+  "homepage": "https://github.com/sirpuffin1/twitterClone#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
