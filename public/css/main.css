@@ -5,6 +5,10 @@
     --lightGray: rgb(230, 236, 240);
     --spacing: 15px;
 }
+
+* {
+    outline: none !important;
+}
 a {
     color: inherit;
 }
