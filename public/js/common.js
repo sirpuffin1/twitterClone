@@ -16,7 +16,7 @@ $("#postTextarea").keyup(event => {
 
 $("#submitPostButton").click(() => {
     var button = $(event.target);
-    var textbox = $("#postTextArea");
+    var textbox = $("#postTextarea");
 
     var data = {
         content: textbox.val()
