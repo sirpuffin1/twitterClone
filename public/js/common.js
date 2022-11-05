@@ -57,19 +57,19 @@ function createPostHtml(postData) {
                 </div>
                 <div class='postFooter'>
                 <div class="postButtonContainer">
-                    <button>
+                    <button class="commentButton">
                     <i class="far fa-comment"></i>
                     </button>
                 </div>
 
                 <div class="postButtonContainer">
-                    <button>
+                    <button class="retweetButton">
                     <i class="fas fa-retweet"></i>
                     </button>
                 </div>
 
                 <div class="postButtonContainer">
-                    <button>
+                    <button class="likeButton">
                     <i class="far fa-heart"></i>
                     </button>
                 </div>
