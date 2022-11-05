@@ -18,6 +18,11 @@ router.get("/", (req, res, next) => {
     })
 })
 
+router.put("/", async (req, res, next) => {  
+   res.status(200).send("yahooooo ")
+})
+
+
 router.post("/", async (req, res, next) => {  
     if(!req.body.content) {
         console.log("Content param not sent with request");
