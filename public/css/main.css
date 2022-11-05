@@ -137,3 +137,7 @@ nav a:hover {
 .username, .date {
     color: var(--grayText)
 }
+
+.displayName {
+    font-weight: bold;
+}
