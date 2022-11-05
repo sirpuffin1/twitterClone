@@ -38,10 +38,10 @@ $(document).on("click", ".likeButton",(event) => {
     if(postId=== undefined) return ;
 
     $.ajax({
-        url: "/api/posts",
+        url: `/api/posts/${postId}/like`,
         type: "PUT",
         success: (postData) => {
-            console.log(postData)
+            console.log(postData.likes.length)
         }
     })
 })
