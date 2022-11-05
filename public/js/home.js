@@ -1,1 +1,5 @@
-console.log('hi connected')
+$(() => {
+    $.get("/api/posts", posts => {
+        console.log(posts);
+    })
+})
