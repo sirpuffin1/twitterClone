@@ -52,6 +52,29 @@ $(document).on("click", ".likeButton",(event) => {
     })
 })
 
+$(document).on("click", ".retweetButton",(event) => {
+    var button = $(event.target);
+    var postId = getPostIdFromElement(button);
+    
+    if(postId=== undefined) return ;
+
+    $.ajax({
+        url: `/api/posts/${postId}/retweet`,
+        type: "POST",
+        success: (postData) => {
+            // button.find('span').text(postData.likes.length || "")
+
+            // if(postData.likes.includes(userLoggedIn._id)) {
+            //     button.addClass("active");
+            // } else {
+            //     button.removeClass("active");
+            // }
+
+            console.log(postData);
+        }
+    })
+})
+
 function getPostIdFromElement(element) {
     var isRoot = element.hasClass("post");
     var rootElement = isRoot ? element : element.closest(".post")
