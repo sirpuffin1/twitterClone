@@ -39,7 +39,7 @@ $("#replyModal").on("show.bs.modal", (event) => {
     var postId = getPostIdFromElement(button);
 
     $.get("/api/posts/" + postId, results => {
-        console.log(results);
+        displayPosts(results, $("#originalPostContainer"))
     })
 })
 
@@ -205,5 +205,22 @@ function timeDifference(current, previous) {
 
     else {
         return Math.round(elapsed/msPerYear ) + ' years ago';   
+    }
+}
+
+function displayPosts(results, container) {
+    container.html("");
+ 
+    if(!Array.isArray(results)) {
+        results = [results]
+    }
+    
+    results.forEach(result => {
+        var html = createPostHtml(result);
+        container.append(html);
+    })
+
+    if(results.length == 0) {
+        container.append("<h2>Nothing to show</h2>")
     }
 }
