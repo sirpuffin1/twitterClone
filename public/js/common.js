@@ -17,26 +17,39 @@ $("#postTextarea, #replyTextarea").keyup(event => {
     submitButton.prop("disabled", false);
 })
 
-$("#submitPostButton").click(() => {
+$("#submitPostButton, #submitReplyButton").click(() => {
     var button = $(event.target);
-    var textbox = $("#postTextarea");
+
+    var isModal = button.parents(".modal").length == 1;
+
+    var textbox = isModal ? $("#replyTextarea") : $("#postTextarea");
 
     var data = {
         content: textbox.val()
     }
 
+    if(isModal) {
+        var id = button.data().id;
+        if(id == null) return alert("Button ID is null");
+        data.replyTo = id;
+    }
     $.post("/api/posts", data, postData => {
-        
-        var html = createPostHtml(postData);
+
+        if(postData.replyTo) {
+            location.reload();
+        } else {
+            var html = createPostHtml(postData);
         $(".postsContainer").prepend(html);
         textbox.val("");
         button.prop("disabled", true);
+        }
     })
 })
 
 $("#replyModal").on("show.bs.modal", (event) => {
     var button = $(event.relatedTarget);
     var postId = getPostIdFromElement(button);
+    $("#submitReplyButton").data("id", postId)
 
     $.get("/api/posts/" + postId, results => {
         displayPosts(results, $("#originalPostContainer"))
@@ -132,6 +145,21 @@ function createPostHtml(postData) {
                     </span>`
     }
 
+    var replyFlag = '';
+    if(postData.replyTo) {
+        if(!postData.replyTo._id) {
+            return alert("Reply to is not populated.")
+        } 
+        else if(!postData.replyTo._id) {
+            return alert("Posted by is not populated.")
+        }
+
+        var replyToUsername = postData.replyTo.postedBy.username;
+        replyFlag = `<div class='replyFlag'>
+                    Replying to <a href='/profile/${replyToUsername}'>@${replyToUsername}</a>
+        </div>`
+    }
+
     return `<div class='post' data-id='${postData._id}'>
                 <div class='postActionContainer'>
                     ${retweetText}
@@ -146,6 +174,7 @@ function createPostHtml(postData) {
                             <span class='username'>@${postedBy.username}</span>
                             <span class='date'>${timestamp}</span>
                         </div>
+                        ${replyFlag}
                         <div class='postBody'>
                             <span>${postData.content}</span>
                         </div>
