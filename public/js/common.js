@@ -1,8 +1,11 @@
-$("#postTextarea").keyup(event => {
+$("#postTextarea, #replyTextarea").keyup(event => {
     var textbox = $(event.target);
     var value = textbox.val().trim();
+
+    var isModal = textbox.parents(".modal").length == 1;
+
     
-    var submitButton = $("#submitPostButton");
+    var submitButton = isModal ? $("#submitReplyButton") : $("#submitPostButton");
 
     if(submitButton.length == 0) return alert("No submit button found");
 
@@ -28,6 +31,15 @@ $("#submitPostButton").click(() => {
         $(".postsContainer").prepend(html);
         textbox.val("");
         button.prop("disabled", true);
+    })
+})
+
+$("#replyModal").on("show.bs.modal", (event) => {
+    var button = $(event.relatedTarget);
+    var postId = getPostIdFromElement(button);
+
+    $.get("/api/posts/" + postId, results => {
+        console.log(results);
     })
 })
 
@@ -97,8 +109,6 @@ function createPostHtml(postData) {
     var isRetweet = postData.retweetData !== undefined;
     var retweetedBy = isRetweet ? postData.postedBy.username : null;
     postData = isRetweet ? postData.retweetData : postData;
-
-    console.log(isRetweet);
     
     var postedBy = postData.postedBy;
 
