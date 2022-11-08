@@ -1,6 +1,6 @@
 $(() => {
     $.get("/api/posts/" + postId, posts => {
-        displayPosts(posts, $(".postsContainer"))
+        displayPostsWithReplies(posts, $(".postsContainer"))
     })
 })
 
