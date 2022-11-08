@@ -1,12 +1,12 @@
 $("#postTextarea").keyup(event => {
     var textbox = $(event.target);
-    var value = textbox.val().trim()
+    var value = textbox.val().trim();
     
     var submitButton = $("#submitPostButton");
 
-    if(submitButton.length == 0) return alert("no submit button found")
+    if(submitButton.length == 0) return alert("No submit button found");
 
-    if(value == "") {
+    if (value == "") {
         submitButton.prop("disabled", true);
         return;
     }
@@ -14,7 +14,7 @@ $("#postTextarea").keyup(event => {
     submitButton.prop("disabled", false);
 })
 
-$("#submitPostButton").click((event) => {
+$("#submitPostButton").click(() => {
     var button = $(event.target);
     var textbox = $("#postTextarea");
 
@@ -23,61 +23,66 @@ $("#submitPostButton").click((event) => {
     }
 
     $.post("/api/posts", data, postData => {
+        
         var html = createPostHtml(postData);
         $(".postsContainer").prepend(html);
-        textbox.val('');
+        textbox.val("");
         button.prop("disabled", true);
     })
-    
 })
 
-$(document).on("click", ".likeButton",(event) => {
+$(document).on("click", ".likeButton", (event) => {
     var button = $(event.target);
     var postId = getPostIdFromElement(button);
     
-    if(postId=== undefined) return ;
+    if(postId === undefined) return;
 
     $.ajax({
         url: `/api/posts/${postId}/like`,
         type: "PUT",
         success: (postData) => {
-            button.find('span').text(postData.likes.length || "")
+            
+            button.find("span").text(postData.likes.length || "");
 
             if(postData.likes.includes(userLoggedIn._id)) {
                 button.addClass("active");
-            } else {
+            }
+            else {
                 button.removeClass("active");
             }
+
         }
     })
+
 })
 
-$(document).on("click", ".retweetButton",(event) => {
+$(document).on("click", ".retweetButton", (event) => {
     var button = $(event.target);
     var postId = getPostIdFromElement(button);
     
-    if(postId=== undefined) return ;
+    if(postId === undefined) return;
 
     $.ajax({
         url: `/api/posts/${postId}/retweet`,
         type: "POST",
-        success: (postData) => {
-            button.find('span').text(postData.retweetUsers.length || "")
+        success: (postData) => {            
+            button.find("span").text(postData.retweetUsers.length || "");
 
             if(postData.retweetUsers.includes(userLoggedIn._id)) {
                 button.addClass("active");
-            } else {
+            }
+            else {
                 button.removeClass("active");
             }
 
-            console.log(postData);
         }
     })
+
 })
 
 function getPostIdFromElement(element) {
     var isRoot = element.hasClass("post");
-    var rootElement = isRoot ? element : element.closest(".post")
+    var rootElement = isRoot == true ? element : element.closest(".post");
     var postId = rootElement.data().id;
 
     if(postId === undefined) return alert("Post id undefined");
@@ -93,63 +98,67 @@ function createPostHtml(postData) {
     var retweetedBy = isRetweet ? postData.postedBy.username : null;
     postData = isRetweet ? postData.retweetData : postData;
 
-    console.log({isRetweet})
-
+    console.log(isRetweet);
+    
     var postedBy = postData.postedBy;
 
     if(postedBy._id === undefined) {
         return console.log("User object not populated");
     }
+
     var displayName = postedBy.firstName + " " + postedBy.lastName;
     var timestamp = timeDifference(new Date(), new Date(postData.createdAt));
-    var likeButtonActiveClass = postData.likes.includes(userLoggedIn._id) ? "active" : ""
-    var retweetButtonActiveClass = postData.retweetUsers.includes(userLoggedIn._id) ? "active" : ""
+
+    var likeButtonActiveClass = postData.likes.includes(userLoggedIn._id) ? "active" : "";
+    var retweetButtonActiveClass = postData.retweetUsers.includes(userLoggedIn._id) ? "active" : "";
+
     var retweetText = '';
     if(isRetweet) {
-        retweetText = `<span><i class="fas fa-retweet"></i> Retweeted by <a href='/profile/${retweetedBy}'>@${retweetedBy}</a></span>`
+        retweetText = `<span>
+                        <i class='fas fa-retweet'></i>
+                        Retweeted by <a href='/profile/${retweetedBy}'>@${retweetedBy}</a>    
+                    </span>`
     }
 
     return `<div class='post' data-id='${postData._id}'>
-    <div class='postActionContainer'>
-    ${retweetText}
-    </div>
-        <div class='mainContentContainer'>
-            <div class='userImageContainer'>
-                <img src='${postedBy.profilePic}'>
-            </div>
-            <div class='postContentContainer'>
-                <div class='header'>
-                    <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
-                    <span class='username'>@${postedBy.username}</span>
-                    <span class='date'>${timestamp}</span>
+                <div class='postActionContainer'>
+                    ${retweetText}
                 </div>
-                <div class='postBody'>
-                <span>${postData.content}</span>
+                <div class='mainContentContainer'>
+                    <div class='userImageContainer'>
+                        <img src='${postedBy.profilePic}'>
+                    </div>
+                    <div class='postContentContainer'>
+                        <div class='header'>
+                            <a href='/profile/${postedBy.username}' class='displayName'>${displayName}</a>
+                            <span class='username'>@${postedBy.username}</span>
+                            <span class='date'>${timestamp}</span>
+                        </div>
+                        <div class='postBody'>
+                            <span>${postData.content}</span>
+                        </div>
+                        <div class='postFooter'>
+                            <div class='postButtonContainer'>
+                                <button data-toggle='modal' data-target='#replyModal'>
+                                    <i class='far fa-comment'></i>
+                                </button>
+                            </div>
+                            <div class='postButtonContainer green'>
+                                <button class='retweetButton ${retweetButtonActiveClass}'>
+                                    <i class='fas fa-retweet'></i>
+                                    <span>${postData.retweetUsers.length || ""}</span>
+                                </button>
+                            </div>
+                            <div class='postButtonContainer red'>
+                                <button class='likeButton ${likeButtonActiveClass}'>
+                                    <i class='far fa-heart'></i>
+                                    <span>${postData.likes.length || ""}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class='postFooter'>
-                <div class="postButtonContainer">
-                    <button class="commentButton">
-                    <i class="far fa-comment"></i>
-                    </button>
-                </div>
-
-                <div class="postButtonContainer green">
-                    <button class="retweetButton ${retweetButtonActiveClass}">
-                    <i class="fas fa-retweet"></i>
-                    <span>${postData.retweetUsers.length || ""}</span>
-                    </button>
-                </div>
-
-                <div class="postButtonContainer red">
-                    <button class="likeButton ${likeButtonActiveClass}">
-                    <i class="far fa-heart"></i>
-                    <span>${postData.likes.length || ""}</span>
-                    </button>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>`
+            </div>`;
 }
 
 function timeDifference(current, previous) {
@@ -163,9 +172,9 @@ function timeDifference(current, previous) {
     var elapsed = current - previous;
 
     if (elapsed < msPerMinute) {
-        if(elapsed / 1000 < 30) return "Just now";
-
-         return Math.round(elapsed/1000) + ' seconds ago';   
+        if(elapsed/1000 < 30) return "Just now";
+        
+        return Math.round(elapsed/1000) + ' seconds ago';   
     }
 
     else if (elapsed < msPerHour) {
