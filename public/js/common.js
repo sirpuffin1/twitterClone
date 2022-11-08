@@ -43,9 +43,7 @@ $("#replyModal").on("show.bs.modal", (event) => {
     })
 })
 
-$("#replyModal").on("hidden.bs.modal", (event) => {
-    $("#originalPostContainer").html("");
-})
+$("#replyModal").on("hidden.bs.modal", () => $("#originalPostContainer").html(""))
 
 $(document).on("click", ".likeButton", (event) => {
     var button = $(event.target);
