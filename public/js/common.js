@@ -43,6 +43,10 @@ $("#replyModal").on("show.bs.modal", (event) => {
     })
 })
 
+$("#replyModal").on("hidden.bs.modal", (event) => {
+    $("#originalPostContainer").html("");
+})
+
 $(document).on("click", ".likeButton", (event) => {
     var button = $(event.target);
     var postId = getPostIdFromElement(button);
@@ -214,7 +218,7 @@ function displayPosts(results, container) {
     if(!Array.isArray(results)) {
         results = [results]
     }
-    
+
     results.forEach(result => {
         var html = createPostHtml(result);
         container.append(html);
