@@ -131,5 +131,14 @@ var results = await Post.find(filter)
     return await User.populate(results, {path: "retweetData.postedBy"})
 }
 
+router.delete("/:id", (req, res, next) => {
+    Post.findByIdAndDelete(req.params.id)
+    .then(() => res.sendStatus(202))
+    .catch((error) => {
+        console.log(error);
+        res.sendStatus(400);
+    })
+})
+
 module.exports = router;
 
