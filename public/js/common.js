@@ -140,8 +140,17 @@ $(document).on("click", ".followButton", (event) => {
     $.ajax({
         url: `/api/users/${userId}/follow`,
         type: "PUT",
-        success: (data) => {
-            console.log(data);
+        success: (userLoggedInData, status, xhr) => {
+            if(xhr.status == 404) {
+                alert("User no longer exists.")
+                return;
+            } 
+
+            if(userLoggedInData.following && userLoggedInData.following.includes(userId)) {
+                button.addClass("following");
+            } else {
+                button.removeClass("following")
+            }
         }
     })
 })
