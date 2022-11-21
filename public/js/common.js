@@ -145,13 +145,21 @@ $(document).on("click", ".followButton", (event) => {
                 alert("User no longer exists.")
                 return;
             } 
-
+            var difference = 1;
             if(userLoggedInData.following && userLoggedInData.following.includes(userId)) {
                 button.addClass("following");
                 button.text("Following");
             } else {
                 button.removeClass("following");
                 button.text("Follow");
+                difference = -1;
+            }
+
+            var followersLabel = $("#followersValue");
+            if(followersLabel.length != 0) {
+                var followersText = followersLabel.text();
+                followersText = parseInt(followersText);
+                followersLabel.text(followersText + difference);
             }
         }
     })
