@@ -23,6 +23,7 @@ router.get("/:username", async(req, res, next) => {
 
 router.get("/:username/replies", async(req, res, next) => {
     var payload = await getPayload(req.params.username, req.session.user);
+    // pass the "replies" selected tab along with other payload info like userLoggedIn
     payload.selectedTab = "replies";
     res.status(200).render('profilePage', payload)
 })

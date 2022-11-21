@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    // display tab based on the value of selected tab
     if(selectedTab === "replies") {
         loadReplies();
     } else {
