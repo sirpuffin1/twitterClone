@@ -1,5 +1,5 @@
 $(() => {
-    $.get("/api/posts", posts => {
+    $.get("/api/posts", { followingOnly: true}, posts => {
         displayPosts(posts, $(".postsContainer"))
     })
 })
