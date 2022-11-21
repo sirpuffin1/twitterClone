@@ -136,7 +136,14 @@ $(document).on("click", ".post", (event) => {
 $(document).on("click", ".followButton", (event) => {
     var button = $(event.target);
     var userId = button.data().user;
-    console.log('userID', userId)
+
+    $.ajax({
+        url: `/api/users/${userId}/follow`,
+        type: "PUT",
+        success: (data) => {
+            console.log(data);
+        }
+    })
 })
 
 function getPostIdFromElement(element) {
