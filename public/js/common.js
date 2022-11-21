@@ -148,8 +148,10 @@ $(document).on("click", ".followButton", (event) => {
 
             if(userLoggedInData.following && userLoggedInData.following.includes(userId)) {
                 button.addClass("following");
+                button.text("Following");
             } else {
-                button.removeClass("following")
+                button.removeClass("following");
+                button.text("Follow");
             }
         }
     })
