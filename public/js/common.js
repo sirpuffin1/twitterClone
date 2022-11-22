@@ -333,8 +333,14 @@ function createPostHtml(postData, largeFont = false) {
     }
 
     var buttons = "";
+    if(postData.postedBy._id == userLoggedIn._id) {
+        var pinnedClass = "";
+        if(postData.pinned === true) {
+            pinnedClass = "active"
+        }
+    }
     if (postData.postedBy._id == userLoggedIn._id) {
-        buttons = `<button data-id="${postData._id}" data-toggle="modal" data-target="#confirmPinModal">
+        buttons = `<button class='pinButton ${pinnedClass}' data-id="${postData._id}" data-toggle="modal" data-target="#confirmPinModal">
         <i class="fas fa-thumbtack"></i>
     </button>
                     <button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal">
