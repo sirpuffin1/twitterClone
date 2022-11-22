@@ -73,6 +73,30 @@ $("#confirmPinModal").on("show.bs.modal", (event) => {
     $("#pinPostButton").data("id", postId)
 })
 
+$("#unpinModal").on("show.bs.modal", (event) => {
+    var button = $(event.relatedTarget);
+    var postId = getPostIdFromElement(button);
+    $("#unpinPostButton").data("id", postId)
+})
+
+$("#unpinPostButton").click((event) => {
+    var postId = $(event.target).data("id");
+
+    $.ajax({
+        url: `/api/posts/${postId}`,
+        type: "PUT",
+        data: {pinned: false},
+        success: (data, status, xhr) => {
+
+            if(xhr.status != 204) {
+                alert("Could not unpin post")
+                return;
+            }
+            location.reload();
+        } 
+    })
+})
+
 $("#pinPostButton").click((event) => {
     var postId = $(event.target).data("id");
 
@@ -336,14 +360,16 @@ function createPostHtml(postData, largeFont = false) {
     var pinnedPostText = "";
     if(postData.postedBy._id == userLoggedIn._id) {
         var pinnedClass = "";
+        var dataTarget = "#confirmPinModal"
 
         if(postData.pinned === true) {
-            pinnedClass = "active"
+            pinnedClass = "active";
+            dataTarget = "#unpinModal"
             pinnedPostText = "<i class='fas fa-thumbtack'></i> <span>Pinned post</span>"
         }
     }
     if (postData.postedBy._id == userLoggedIn._id) {
-        buttons = `<button class='pinButton ${pinnedClass}' data-id="${postData._id}" data-toggle="modal" data-target="#confirmPinModal">
+        buttons = `<button class='pinButton ${pinnedClass}' data-id="${postData._id}" data-toggle="modal" data-target="${dataTarget}">
         <i class="fas fa-thumbtack"></i>
     </button>
                     <button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal">
