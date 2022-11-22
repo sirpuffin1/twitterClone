@@ -67,6 +67,30 @@ $("#deletePostModal").on("show.bs.modal", (event) => {
     $("#deletePostButton").data("id", postId)
 })
 
+$("#confirmPinModal").on("show.bs.modal", (event) => {
+    var button = $(event.relatedTarget);
+    var postId = getPostIdFromElement(button);
+    $("#pinPostButton").data("id", postId)
+})
+
+$("#pinPostButton").click((event) => {
+    var postId = $(event.target).data("id");
+
+    $.ajax({
+        url: `/api/posts/${postId}`,
+        type: "PUT",
+        data: {pinned: true},
+        success: (data, status, xhr) => {
+
+            if(xhr.status != 204) {
+                alert("Could not pin post")
+                return;
+            }
+            location.reload();
+        } 
+    })
+})
+
 $("#deletePostButton").click((event) => {
     var postId = $(event.target).data("id");
 
