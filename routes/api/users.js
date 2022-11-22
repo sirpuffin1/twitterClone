@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const bodyParser = require('body-parser');
+const multer = require("multer");
+const upload = multer({ dest: "uploads/"});
 const User = require('../../schemas/UserSchema');
 const Post = require('../../schemas/PostSchema')
 
@@ -58,6 +60,14 @@ router.get("/:userId/followers", async(req, res, next) => {
     })
 });
 
+router.post("/profilePicture", upload.single("croppedImage"), async(req, res, next) => {
+    if(!req.file) {
+        console.log("No file uploaded with request")
+        return res.sendStatus(400);
+    }
+
+    res.sendStatus(200);
+})
 
 module.exports = router;
 
