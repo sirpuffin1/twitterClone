@@ -111,7 +111,7 @@ $("#coverPhoto").change(function() {
             }
 
             cropper = new Cropper(image, {
-                aspectRatio: 16 / 9,
+                aspectRatio: 3 / 1,
                 background: false
             })
         }
