@@ -72,13 +72,15 @@ router.post("/profilePicture", upload.single("croppedImage"), async(req, res, ne
     var tempPath = req.file.path;
     var targetPath = path.join(__dirname, `../..${filePath}`);
 
-    fs.rename(tempPath, targetPath, error => {
+    fs.rename(tempPath, targetPath, async error => {
         if(error != null) {
             console.log(error)
             return res.sendStatus(400);
         }
 
-        res.sendStatus(200);
+        req.session.user = await User.findByIdAndUpdate(req.session.user._id, {profilePic: filePath}, {new: true})
+
+        res.sendStatus(204);
     })
     
 })
