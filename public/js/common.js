@@ -114,6 +114,7 @@ $("#imageUploadButton").click(() => {
         $.ajax({
             url: "/api/users/profilePicture",
             type: "POST",
+            data: formData,
             processData: false,
             contentType: false,
             success: () => location.reload()
