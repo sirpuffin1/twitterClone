@@ -397,3 +397,6 @@ button span {
     max-width: 100%;
 }
 
+.pinButton.active {
+    color: var(--blue);
+}
