@@ -12,7 +12,7 @@ function loadPosts() {
     $.get("/api/posts", { postedBy: profileUserId , pinned: true } ,  posts => {
         displayPinnedPost(posts, $(".pinnedPostContainer"))
     })
-    $.get("/api/posts", { postedBy: profileUserId , pinned: false } ,  posts => {
+    $.get("/api/posts", { postedBy: profileUserId , isReply: false, pinned: false } ,  posts => {
         displayPosts(posts, $(".postsContainer"))
     })
 }
