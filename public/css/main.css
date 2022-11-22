@@ -384,7 +384,8 @@ button span {
     height: 100%;
 }
 
-#imagePreview {
+#imagePreview,
+#coverPreview {
     display: block;
     width: 100%;
     max-width: 100%;
