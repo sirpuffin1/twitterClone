@@ -1,5 +1,6 @@
 // Globals
 var cropper;
+var timer;
 
 $("#postTextarea, #replyTextarea").keyup(event => {
     var textbox = $(event.target);
@@ -211,6 +212,26 @@ $("#coverPhotoButton").click(() => {
             success: () => location.reload()
         })
     })
+})
+
+$("#userSearchTextBox").keydown((event) => {
+    clearTimeout(timer);
+    var textbox = $(event.target);
+    var value = textbox.val();
+
+    if(value == "" && event.keycode == 8) {
+         // remove user from selection
+    }
+    timer = setTimeout(() => {
+        value = textbox.val().trim();
+
+        if(value == "") {
+            $(".resultsContainer").html("");
+        }
+        else {
+            searchUsers(value);
+        }
+    }, 1000)
 })
 
 $(document).on("click", ".likeButton", (event) => {
@@ -535,4 +556,8 @@ function createUserHtml(userData, showFollowButton) {
                 </div>
                 ${followButton}
             </div>`;
+}
+
+function searchUsers(searchTerm) {
+    console.log("hi")
 }
