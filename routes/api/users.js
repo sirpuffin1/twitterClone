@@ -3,6 +3,8 @@ const app = express();
 const router = express.Router();
 const bodyParser = require('body-parser');
 const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 const upload = multer({ dest: "uploads/"});
 const User = require('../../schemas/UserSchema');
 const Post = require('../../schemas/PostSchema')
@@ -66,7 +68,19 @@ router.post("/profilePicture", upload.single("croppedImage"), async(req, res, ne
         return res.sendStatus(400);
     }
 
-    res.sendStatus(200);
+    var filePath = `/uploads/images/${req.file.filename}.png`;
+    var tempPath = req.file.path;
+    var targetPath = path.join(__dirname, `../..${filePath}`);
+
+    fs.rename(tempPath, targetPath, error => {
+        if(error != null) {
+            console.log(error)
+            return res.sendStatus(400);
+        }
+
+        res.sendStatus(200);
+    })
+    
 })
 
 module.exports = router;
