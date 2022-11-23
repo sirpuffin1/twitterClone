@@ -220,8 +220,15 @@ $("#userSearchTextBox").keydown((event) => {
     var textbox = $(event.target);
     var value = textbox.val();
 
-    if(value == "" && event.keycode == 8) {
+    if(value == "" && (event.which == 8 || event.keyCode == 8)) {
          // remove user from selection
+         selectedUsers.pop();
+         updateSelectedUsersHtml();
+         $(".resultsContainer").html("");
+
+         if(selectedUsers.length == 0) {
+            $("#createChatButton").prop("disabled", true);
+         }
     }
     timer = setTimeout(() => {
         value = textbox.val().trim();
@@ -534,7 +541,7 @@ function outputSelectableUsers(results, container) {
         if(result._id == userLoggedIn._id || selectedUsers.some(user => user._id === result._id)) {
             return;
         }
-        var html = createUserHtml(result, true);
+        var html = createUserHtml(result, false);
         var element = $(html)
         element.click(() => userSelected(result));
         container.append(element);
