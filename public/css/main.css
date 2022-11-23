@@ -480,3 +480,30 @@ button span {
     margin: 5x 5p 0 0;
     display: inline-block;
 }
+
+.resultListItem {
+    padding: 7px;
+    display: flex; 
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--lightGray);
+}
+
+.resultListItem:hover {
+    background-color: #F2F2F2;
+}
+
+.resultsDetailsContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.resultsDetailsContainer .heading {
+    font-weight: 500;
+}
+
+.resultsDetailsContainer .subText {
+    color: var(--grayText);
+    font-size: 14px;
+}
