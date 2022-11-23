@@ -1,6 +1,7 @@
 // Globals
 var cropper;
 var timer;
+var selectedUsers = [];
 
 $("#postTextarea, #replyTextarea").keyup(event => {
     var textbox = $(event.target);
@@ -534,7 +535,9 @@ function outputSelectableUsers(results, container) {
             return;
         }
         var html = createUserHtml(result, true);
-        container.append(html);
+        var element = $(html)
+        element.click(() => userSelected(result));
+        container.append(element);
     });
 
     if(results.length == 0) {
@@ -578,4 +581,11 @@ function searchUsers(searchTerm) {
     $.get("/api/users", {search: searchTerm}, results => {
         outputSelectableUsers(results, $(".resultsContainer"));
     })
+}
+
+function userSelected(user) {
+    selectedUsers.push(user);
+    $("#userSearchTextBox").val("").focus();
+    $(".resultsContainer").html("");
+    $("#createChatButton").prop("disabled", false)
 }
