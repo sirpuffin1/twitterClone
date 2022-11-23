@@ -447,13 +447,13 @@ button span {
 }
 
 .chatTitleBar label {
-    margin-right: 10px
+    margin:0 10px 0 0;
 }
 
 #userSearchTextBox {
     border: none;
     flex: 1;
-    font-weight: 200px;
+    font-weight: 200;
     min-width: 350px;
 }
 
@@ -469,4 +469,14 @@ button span {
 #createChatButton:disabled {
     background-color: var(--lightGray);
     color: var(--grayText);
+}
+
+.selectedUser {
+    font-weight: 300;
+    background-color: #CBE5FE;
+    color: #0084ff;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5x 5p 0 0;
+    display: inline-block;
 }
