@@ -531,7 +531,7 @@ function outputSelectableUsers(results, container) {
     container.html("");
 
     results.forEach(result => {
-        if(result._id == userLoggedIn._id) {
+        if(result._id == userLoggedIn._id || selectedUsers.some(user => user._id === result._id)) {
             return;
         }
         var html = createUserHtml(result, true);
