@@ -57,7 +57,7 @@ function addChatMessageHtml(message) {
 }
 
 function createMessageHtml(message) {
-    var isMine = message.sender._id == userLoggedIn;
+    var isMine = message.sender._id == userLoggedIn._id;
     var liClassName = isMine ? "mine" : "theirs";
 
     return `<li class='message ${liClassName}'>
