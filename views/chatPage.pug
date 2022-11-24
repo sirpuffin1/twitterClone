@@ -9,7 +9,8 @@ block content
             var chatId = '!{chat._id}'
             
         .chatPageContainer 
-            .chatTitleBarContainer 
+            .chatTitleBarContainer
+                +createChatImage(chat, userLoggedIn)
                 span#chatName this is the chat
             .mainContentContainer 
                 .chatContainer
