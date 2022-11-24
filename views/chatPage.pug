@@ -7,7 +7,17 @@ block content
     else
         script.
             var chatId = '!{chat._id}'
-            console.log(chatId)
+            
+        .chatPageContainer 
+            .chatTitleBarContainer 
+                span#chatName this is the chat
+            .mainContentContainer 
+                .chatContainer
+
+                    .footer 
+                        textarea(name="messageInput", placeholder="Type a message...")
+                        button.sendMessageButton 
+                            i.fas.fa-paper-plane
 
 block scripts
     script(src="/js/chat.js")
