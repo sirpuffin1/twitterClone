@@ -15,6 +15,7 @@ $(document).ready(() => {
 
         var messagesHtml = messages.join("");
         addMessagesHtmlToPage(messagesHtml);
+        scrollToBottom(false);
     })
 })
 
@@ -48,8 +49,6 @@ $(".inputTextbox").keydown((event) => {
 
 function addMessagesHtmlToPage(html) {
     $(".chatMessages").append(html);
-
-    //TODO: scroll to bottom
 }
 
 function messageSubmitted() {
@@ -82,6 +81,7 @@ function addChatMessageHtml(message) {
     var messageDiv = createMessageHtml(message, null, "");
 
     addMessagesHtmlToPage(messageDiv)
+    scrollToBottom(true);
 }
 
 function createMessageHtml(message, nextMessage, lastSenderId) {
@@ -132,4 +132,17 @@ function createMessageHtml(message, nextMessage, lastSenderId) {
             </span>
         </div>
     </li>`
+}
+
+function scrollToBottom(animated) {
+    var container = $(".chatMessages");
+    var scrollHeight = container[0].scrollHeight;
+
+    if(animated) {
+        container.animate({ scrollTop: scrollHeight}, "slow")
+    }
+
+    else {
+        container.scrollTop(scrollHeight);
+    }
 }
