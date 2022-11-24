@@ -86,7 +86,7 @@ function addChatMessageHtml(message) {
 
 function createMessageHtml(message, nextMessage, lastSenderId) {
     var sender = message.sender;
-    var senderName = sender.firstName + sender.lastName;
+    var senderName = sender.firstName + " " +sender.lastName;
     
     var currentSenderId = sender._id;
     var nextSenderId = nextMessage != null ? nextMessage.sender._id : "";
@@ -97,8 +97,17 @@ function createMessageHtml(message, nextMessage, lastSenderId) {
     var isMine = message.sender._id == userLoggedIn._id;
     var liClassName = isMine ? "mine" : "theirs";
 
+    var nameElement = "";
+
     if(isFirst) {
         liClassName += " first";
+
+        if(!isMine) {
+            console.log("should only show so many times")
+            nameElement = `<span class='senderName'>
+                            ${senderName}
+                            </span>`
+        }
     }
 
     if(isLast) {
@@ -107,6 +116,7 @@ function createMessageHtml(message, nextMessage, lastSenderId) {
 
     return `<li class='message ${liClassName}'>
         <div class='messageContainer'>
+        ${nameElement}
             <span class='messageBody'>
                 ${message.content}
             </span>
