@@ -17,3 +17,28 @@ $("#chatNameButton").click(() => {
         }
     })
 })
+
+$(".sendMessageButton").click(() => {
+    messageSubmitted()
+})
+
+$(".inputTextbox").keydown((event) => {
+    if(event.which === 13) {
+        messageSubmitted();
+        return false;
+    }
+    
+})
+
+function messageSubmitted() {
+    var inputText = $(".inputTextbox");
+    var content = inputText.val().trim();
+
+    if(content != "")
+    sendMessage(content)
+    inputText.val("")
+}
+
+function sendMessage(content) {
+    console.log(content)
+}
