@@ -70,6 +70,7 @@ io.on("connection", (socket) => {
         socket.emit("connected");
     })
 
-    socket.on("Join room", room => socket.join(room))
+    socket.on("Join room", room => socket.join(room));
+    socket.on("typing", room => socket.in(room).emit("typing"));
 
 })

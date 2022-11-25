@@ -1,7 +1,10 @@
 $(document).ready(() => {
 
-    socket.emit("join room", chatId);
-    
+    socket.emit("Join room", chatId);
+    socket.on("typing", () => {
+        console.log("user is typing")
+    })
+
     $.get(`/api/chats/${chatId}`, data => $("#chatName").text(getChatName(data)))
 
     $.get(`/api/chats/${chatId}/messages`, (data) => {
@@ -46,12 +49,19 @@ $(".sendMessageButton").click(() => {
 })
 
 $(".inputTextbox").keydown((event) => {
+
+    updateTyping();
+
     if(event.which === 13) {
         messageSubmitted();
         return false;
     }
     
 })
+
+function updateTyping() {
+    socket.emit("typing", chatId);
+}
 
 function addMessagesHtmlToPage(html) {
     $(".chatMessages").append(html);
@@ -109,7 +119,6 @@ function createMessageHtml(message, nextMessage, lastSenderId) {
         liClassName += " first";
 
         if(!isMine) {
-            console.log("should only show so many times")
             nameElement = `<span class='senderName'>
                             ${senderName}
                             </span>`
