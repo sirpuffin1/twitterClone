@@ -113,6 +113,10 @@ function sendMessage(content) {
             return;
         }
         addChatMessageHtml(data);
+
+        if(connected) {
+            socket.emit("new message", data);
+        }
     })
 }
 
