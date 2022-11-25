@@ -96,9 +96,12 @@ function messageSubmitted() {
     var inputText = $(".inputTextbox");
     var content = inputText.val().trim();
 
-    if(content != "")
+    if(content != "") {
     sendMessage(content)
     inputText.val("")
+    socket.emit("stop typing", chatId);
+    typing = false;
+    }
 }
 
 function sendMessage(content) {
