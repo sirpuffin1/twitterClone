@@ -8,7 +8,7 @@ const fs = require("fs");
 const upload = multer({ dest: "uploads/"});
 const User = require('../../schemas/UserSchema');
 const Post = require('../../schemas/PostSchema');
-const Notification = require('../../schemas/notificationSchema');
+const Notification = require('../../schemas/NotificationSchema');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
