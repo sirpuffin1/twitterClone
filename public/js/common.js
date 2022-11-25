@@ -251,6 +251,17 @@ $("#createChatButton").click(() => {
     })
 })
 
+$(document).on("click", ".notification.active", (e) => {
+    var container = $(e.target);
+    var notificationId = container.data().id;
+
+    var href = container.attr("href");
+    e.preventDefault();
+
+    var callback = () => window.location = href;
+    markNotificationsAsOpened(notificationId, callback);
+})
+
 $(document).on("click", ".likeButton", (event) => {
     var button = $(event.target);
     var postId = getPostIdFromElement(button);
