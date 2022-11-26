@@ -712,7 +712,7 @@ function showNotificationPopup(data) {
 
     element.prependTo("#notificationList");
 
-    setTimeout(() => html.fadeOut(400), 5000)
+    setTimeout(() => element.fadeOut(400), 5000)
 }
 
 function outputNotificationList(notifications, container) {
