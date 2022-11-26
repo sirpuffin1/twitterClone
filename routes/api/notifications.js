@@ -48,8 +48,8 @@ router.put("/markAsOpened", async(req, res, next) => {
 })
 
 router.get("/latest", async(req, res, next) => {
-    
-    Notification.find({ userTo: req.session.user._id})
+
+    Notification.findOne({ userTo: req.session.user._id})
     .populate("userTo")
     .populate("userFrom")
     .sort({ createdAt: -1})
