@@ -660,6 +660,8 @@ function messageReceived(newMessage) {
     else {
         addChatMessageHtml(newMessage)
     }
+
+    refreshMessagesBadge();
 }
 
 function markNotificationsAsOpened(notificationId = null, callback = null) {
