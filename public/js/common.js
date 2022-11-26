@@ -4,7 +4,8 @@ var timer;
 var selectedUsers = [];
 
 $(document).ready(() => {
-    refreshMessagesBadge()
+    refreshMessagesBadge();
+    refreshNotificationsBadge()
 })
 
 $("#postTextarea, #replyTextarea").keyup(event => {
@@ -684,6 +685,18 @@ function refreshMessagesBadge() {
         } 
         else {
             $("#messagesBadge").text("").removeClass("")
+        }
+    })
+}
+
+function refreshNotificationsBadge() {
+    $.get("/api/notifications", { unreadOnly: true}, (data) => {
+        var numResults = data.length;
+        if(numResults > 0 ) {
+            $("#notificationBadge").text(numResults).addClass("active");
+        } 
+        else {
+            $("#notificationBadge").text("").removeClass("")
         }
     })
 }
