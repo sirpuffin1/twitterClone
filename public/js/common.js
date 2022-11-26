@@ -46,7 +46,9 @@ $("#submitPostButton, #submitReplyButton").click(() => {
     $.post("/api/posts", data, postData => {
 
         if(postData.replyTo) {
+            emitNotification(postData.replyTo.postedBy)
             location.reload();
+
         } else {
             var html = createPostHtml(postData);
         $(".postsContainer").prepend(html);
@@ -282,6 +284,7 @@ $(document).on("click", ".likeButton", (event) => {
 
             if(postData.likes.includes(userLoggedIn._id)) {
                 button.addClass("active");
+                emitNotification(postData.postedBy)
             }
             else {
                 button.removeClass("active");
@@ -306,6 +309,7 @@ $(document).on("click", ".retweetButton", (event) => {
 
             if(postData.retweetUsers.includes(userLoggedIn._id)) {
                 button.addClass("active");
+                emitNotification(postData.postedBy);
             }
             else {
                 button.removeClass("active");
@@ -340,6 +344,7 @@ $(document).on("click", ".followButton", (event) => {
             if(userLoggedInData.following && userLoggedInData.following.includes(userId)) {
                 button.addClass("following");
                 button.text("Following");
+                emitNotification(userId);
             } else {
                 button.removeClass("following");
                 button.text("Follow");
