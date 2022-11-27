@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 class Database {
   constructor() {
     this.connect();
+    
   }
 
   connect() {
