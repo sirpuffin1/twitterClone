@@ -1,6 +1,6 @@
 var connected = false;
 
-const socket = io("https://angels-twitter-clone.herokuapp.com/");
+const socket = io("https://angels-twitter-clone.herokuapp.com");
 
 socket.emit("setup", userLoggedIn);
 socket.on("connected", () => connected = true);
